@@ -14,13 +14,13 @@ This article is more like a follow-up to guide myself through the dangerous wate
 
 + Storage: Samsung 850 EVO 500GB. The virtual machine will reside in the `/home` partition.
  
- + Memory: 16GB DDR4. Since my host linux machine rarely uses more than 4GB, I safely pass 8GB to the virtual machine which is more than enough for mundane tasks, light CAD, etc.
++ Memory: 16GB DDR4. Since my host linux machine rarely uses more than 4GB, I safely pass 8GB to the virtual machine which is more than enough for mundane tasks, light CAD, etc.
 
 + Monitor: LG 23EA63. It's a basic monitor with DVI and HMDI ports. I'm feeding Nvidia output via DVI, leaving HDMI for iGPU.
 
 + Input: a set of simple Logitech keyboard + mouse. It is not a bad idea to have another pair with you since you'll be passing one pair to the virtual machine making it inaccessible from the host.
  
- ## Enable IOMMU
+## Enable IOMMU
  
 The first thing you have to do is modify the loader entries under `/boot/loader/entries`. Turn on the iommu flag - edit the default entry by appending `intel_iommu=on`
 
@@ -45,7 +45,7 @@ As you can see, my bus id is `01:00.0` and the ID's of the devices are `10de:140
 
 **Pitfall #1** - make sure virtualization is supported and enabled in your firmware (UEFI). The option was hidden in a submenu in my case which resulted in a non-existing `iommu_group` directory.
 
- ## Isolate the GPU
+## Isolate the GPU
  
  Newer kernel versions (>= Linux 4.1) include `vfio-pci` module by default. Enable the module by running `modprobe vfio-pci`. Next, edit the `/etc/modprobe.d/vfio.conf` and append the two IDs
  
@@ -79,7 +79,7 @@ Download
  
  + [Windows ISO](https://www.microsoft.com/en-us/software-download/windows10ISO) - I'm using Windows 10 N version (no media software).
  
- The directories given in this project are there only to keep the structure clean. I suggest putting the files under the directories given to keep the structure clean. Also, remember to rename your files and/or update the `scripts` with the correct filenames of the downloaded drivers and ISO.
+The directories given in this project are there only to keep the structure clean. I suggest putting the files under the directories given to keep the structure clean. Also, remember to rename your files and/or update the `scripts` with the correct filenames of the downloaded drivers and ISO.
   
  The script content for creating an image container is as follows
  
