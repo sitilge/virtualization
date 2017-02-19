@@ -81,7 +81,7 @@ Download
  
 The directories given in this project are there only to keep the structure clean. I suggest putting the files under the directories given to keep the structure clean. Also, remember to rename your files and/or update the `scripts` with the correct filenames of the downloaded drivers and ISO.
   
- The script content for creating an image container is as follows
+ The `scripts/qemu-create.sh` script content for creating an image container is as follows
  
  ````
  qemu-img create -f qcow2 -o preallocation=metadata,compat=1.1,lazy_refcounts=on ./../images/Win10_1607_N_English_x64.img 64G
@@ -89,7 +89,7 @@ The directories given in this project are there only to keep the structure clean
  
  Basically, I create a `qcow` container with storage size of 64GB. The other arguments are for optimization (read the first post for more info).
  
- The script content for running the virtual machine is as follows
+ The `scripts/qemu-run.sh` script content for running the virtual machine is as follows
  
  ````
 cp /usr/share/edk2.git/ovmf-x64/OVMF_VARS-pure-efi.fd /tmp/OVMF_VARS-pure-efi.fd
@@ -110,11 +110,11 @@ qemu-system-x86_64 \
   -drive file=./../virtio/virtio-win-0.1.130.iso,id=virtiocd,if=none,format=raw -device ide-cd,bus=ide.1,drive=virtiocd
  ````
  
-In general, I'm running `64bit` operating system which has the same cpu parameters as the host machine, with 8GiB of memory. Run `lspci -nnk` and grep the IDs of your mouse and keyboard (in my case `046d:c077` and `046d:c31c`). Preferably, get another combo. When the guest VM is started, the host won't be able to use the mouse & keyboard passed to the guest. Edit the `vfio-pci` lines and set the bus of your video card. Here, the `01:00.0` is the GPU and `01:00.0` is the audio device.
+In general, I'm running a 64 bit operating system which has the same CPU parameters as the host machine, with 8GiB of memory. Run `lspci -nnk` and grep the IDs of your mouse and keyboard (in my case `046d:c077` and `046d:c31c`). Preferably, get another combo- when the guest VM is started, the host won't be able to use the mouse & keyboard passed to the guest. Edit the `device vfio-pci ...` lines and set the bus of your video card. Here, the `01:00.0` is the GPU and `01:00.0` is the audio device.
 
 **Pitfall #2** - check that you have plugged the correct cables in the respective ports and switched to the GPU source on your monitor (DVI in my case).
 
-**Pitfall #3** - when browsing for the virtio drivers, don't get confused and pick the ones given under `virtio iso -> virtscsi -> win10 -> amd64` because AMD64 architecture was adopted by Intel in its CPUs and is the common 64-bit extension of the x86 architecture used by both Intel and AMD CPUs.
+**Pitfall #3** - when browsing for the virtio drivers, don't get confused and pick the ones given under `virtio iso -> virtscsi -> win10 -> amd64` because AMD64 architecture was adopted by Intel in its CPUs and is the common 64 bit extension of the x86 architecture used by both Intel and AMD CPUs.
 
 **Pitfall #4** - once the VM has been started, the mouse and keyboard passed won't be available on the host machine. It is wise to keep another combo with you if something goes wrong.
 
