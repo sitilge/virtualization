@@ -2,10 +2,14 @@
 
 cp /usr/share/edk2.git/ovmf-x64/OVMF_VARS-pure-efi.fd /tmp/OVMF_VARS-pure-efi.fd
 
+QEMU_PA_SAMPLES=128 QEMU_AUDIO_DRV=pa
+
 qemu-system-x86_64 \
   -enable-kvm \
-  -cpu host,kvm=off \
   -m 8196 \
+  -smp cores=4,threads=1 \
+  -cpu host,kvm=off \
+  -vga none \
   -soundhw hda \
   -usb -usbdevice host:046d:c077 -usbdevice host:046d:c31c \
   -device vfio-pci,host=01:00.0,multifunction=on \

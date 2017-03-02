@@ -1,6 +1,6 @@
 # Virtualization
 
-This article is more like a follow-up to guide myself through the dangerous waters of virtualization. This readme is symbiosis of a magnificent [reddit post on GPU passthrough](https://www.reddit.com/r/pcmasterrace/comments/3lno0t/gpu_passthrough_revisited_an_updated_guide_on_how/), a [blog post](http://dominicm.com/gpu-passthrough-qemu-arch-linux/) and the [arch wiki](https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF). The flow of the article will remain relatively close to the other posts and one should choose them over this one if well-grained details are required. I will also provide pitfalls I've encountered during the setup.
+This article is more like a follow-up to guide myself through the dangerous waters of virtualization. This readme is symbiosis of the magnificent [reddit post on GPU passthrough](https://www.reddit.com/r/pcmasterrace/comments/3lno0t/gpu_passthrough_revisited_an_updated_guide_on_how/), this [blog post](http://dominicm.com/gpu-passthrough-qemu-arch-linux/) and the [arch wiki](https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF). The flow of the article will remain relatively close to the other posts and one should choose them over this one if well-grained details are required. I will also provide pitfalls I've encountered during the setup.
  
 ## Host setup
 
@@ -65,7 +65,7 @@ Reboot and verify that `vfio-pci` has been loaded `dmesg | grep -i vfio `.
 ## Guest setup
 
 Run `sudo pacman -S qemu` to install `qemu`. The UEFI I am using is from the OVMF project. [Download](https://www.kraxel.org/repos/jenkins/edk2/) the latest build `edk2.git-ovmf-x64-XXXXXXX.noarch.rpm` and install the `rpmextract` package `sudo pacman -S rpmextract`. Now extract and copy the files
-  
+
  ````
 ovmf=edk2.git-ovmf-x64-XXXXXXX.noarch.rpm && \
 mv $ovmf /tmp && \
@@ -80,8 +80,8 @@ Download
  + [Windows ISO](https://www.microsoft.com/en-us/software-download/windows10ISO) - I'm using Windows 10 N version (no media software).
  
 The directories given in this project are there only to keep the structure clean. I suggest putting the files under the directories given to keep the structure clean. Also, remember to rename your files and/or update the `scripts` with the correct filenames of the downloaded drivers and ISO.
-  
- The `scripts/qemu-create.sh` script content for creating an image container is as follows
+
+Change to `cd scripts` directory. The `qemu-create.sh`
  
  ````
  qemu-img create -f qcow2 -o preallocation=metadata,compat=1.1,lazy_refcounts=on ./../images/Win10_1607_N_English_x64.img 64G
@@ -89,15 +89,19 @@ The directories given in this project are there only to keep the structure clean
  
  Basically, I create a `qcow` container with storage size of 64GB. The other arguments are for optimization (read the first post for more info).
  
- The `scripts/qemu-run.sh` script content for running the virtual machine is as follows
+ The `qemu-run.sh` script content for running the virtual machine is as follows
  
  ````
 cp /usr/share/edk2.git/ovmf-x64/OVMF_VARS-pure-efi.fd /tmp/OVMF_VARS-pure-efi.fd
 
+QEMU_PA_SAMPLES=128 QEMU_AUDIO_DRV=pa
+
 qemu-system-x86_64 \
   -enable-kvm \
-  -cpu host,kvm=off \
   -m 8196 \
+  -smp cores=4,threads=1 \
+  -cpu host,kvm=off \
+  -vga none \
   -soundhw hda \
   -usb -usbdevice host:046d:c077 -usbdevice host:046d:c31c \
   -device vfio-pci,host=01:00.0,multifunction=on \
