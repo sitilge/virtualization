@@ -60,7 +60,7 @@ MODULES="... vfio vfio_iommu_type1 vfio_pci vfio_virqfd ..."
 HOOKS="... modconf ..."
 ````
 
-Reboot and verify that `vfio-pci` has been loaded `dmesg | grep -i vfio `.
+Regenerate `mkinitcpio -p linux`, then reboot and verify that `vfio-pci` has been loaded `dmesg | grep -i vfio `.
 
 ## Guest setup
 
