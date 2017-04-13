@@ -33,7 +33,7 @@ options root=PARTUUID=95433c88-8e5b-4318-a3e0-508c5cbf22f1 rw intel_iommu=on
  `DMAR: IOMMU enabled`
  ````
  
-Find information about the video card by running `lspci -nnk"`, locate the video card and the respective bus information
+Find information about the video card by running `lspci -nnk`, locate the video card and the respective bus information
 
 ````
 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GM206 [GeForce GTX 950] [10de:1402] (rev a1)
