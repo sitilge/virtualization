@@ -19,7 +19,9 @@ This article is more like a follow-up to guide myself through the dangerous wate
 + Monitor: LG 23EA63. It's a basic monitor with DVI and HMDI ports. I'm feeding Nvidia output via DVI, leaving HDMI for iGPU.
 
 + Input: a set of simple Logitech keyboard + mouse. It is not a bad idea to have another pair with you since you'll be passing one pair to the virtual machine making it inaccessible from the host.
- 
+
+**Pitfall #0** - you might want to `pacman -Syu` beforehand. This happened to me once, updating the kernel was the solution.
+
 ## Enable IOMMU
  
 The first thing you have to do is modify the loader entries under `/boot/loader/entries`. Turn on the iommu flag - edit the default entry by appending `intel_iommu=on`
