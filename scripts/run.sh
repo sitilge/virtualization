@@ -17,6 +17,5 @@ qemu-system-x86_64 \
   -drive if=pflash,format=raw,file=/tmp/OVMF_VARS-pure-efi.fd \
   -device virtio-scsi-pci,id=scsi \
   -drive file=./../windows/Win10_1607_N_English_x64.iso,id=isocd,format=raw,if=none -device scsi-cd,drive=isocd \
-  -drive file=/home/martins/Desktop/arch.iso,id=archcd,format=raw,if=none -device ide-cd,bus=ide.1,drive=archcd \
   -drive file=./../images/Win10_1607_N_English_x64.img,id=disk,format=qcow2,if=none,cache=writeback -device scsi-hd,drive=disk \
   -drive file=./../virtio/virtio-win-0.1.130.iso,id=virtiocd,if=none,format=raw -device ide-cd,bus=ide.1,drive=virtiocd
