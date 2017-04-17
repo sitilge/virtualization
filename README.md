@@ -19,7 +19,9 @@ This article is more like a follow-up to guide myself through the dangerous wate
 + Monitor: LG 23EA63. It's a basic monitor with DVI and HMDI ports. I'm feeding Nvidia output via DVI, leaving HDMI for iGPU.
 
 + Input: a set of simple Logitech keyboard + mouse. It is not a bad idea to have another pair with you since you'll be passing one pair to the virtual machine making it inaccessible from the host.
- 
+
+**Pitfall #0** - you might want to `pacman -Syu` beforehand. This happened to me once, updating the kernel was the solution.
+
 ## Enable IOMMU
  
 The first thing you have to do is modify the loader entries under `/boot/loader/entries`. Turn on the iommu flag - edit the default entry by appending `intel_iommu=on`
@@ -33,7 +35,7 @@ options root=PARTUUID=95433c88-8e5b-4318-a3e0-508c5cbf22f1 rw intel_iommu=on
  `DMAR: IOMMU enabled`
  ````
  
-Find information about the video card by running `lspci -nnk"`, locate the video card and the respective bus information
+Find information about the video card by running `lspci -nnk`, locate the video card and the respective bus information
 
 ````
 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GM206 [GeForce GTX 950] [10de:1402] (rev a1)
@@ -60,7 +62,7 @@ MODULES="... vfio vfio_iommu_type1 vfio_pci vfio_virqfd ..."
 HOOKS="... modconf ..."
 ````
 
-Reboot and verify that `vfio-pci` has been loaded `dmesg | grep -i vfio `.
+Regenerate `mkinitcpio -p linux`, then reboot and verify that `vfio-pci` has been loaded `dmesg | grep -i vfio `.
 
 ## Guest setup
 
