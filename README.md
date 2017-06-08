@@ -96,7 +96,9 @@ Change to `cd scripts` directory. The `qemu-create.sh`
  ````
 cp /usr/share/edk2.git/ovmf-x64/OVMF_VARS-pure-efi.fd /tmp/OVMF_VARS-pure-efi.fd
 
-QEMU_PA_SAMPLES=128 QEMU_AUDIO_DRV=pa
+QEMU_PA_SAMPLES=128
+QEMU_AUDIO_DRV=alsa
+QEMU_AUDIO_TIMER_PERIOD=0
 
 qemu-system-x86_64 \
   -enable-kvm \
@@ -104,7 +106,7 @@ qemu-system-x86_64 \
   -smp cores=4,threads=1 \
   -cpu host,kvm=off \
   -vga none \
-  -soundhw hda \
+  -soundhw ac97 \
   -usb -usbdevice host:046d:c077 -usbdevice host:046d:c31c \
   -device vfio-pci,host=01:00.0,multifunction=on \
   -device vfio-pci,host=01:00.1 \
@@ -125,3 +127,5 @@ In general, I'm running a 64 bit operating system which has the same CPU paramet
 **Pitfall #4** - once the VM has been started, the mouse and keyboard passed won't be available on the host machine. It is wise to keep another combo with you if something goes wrong.
 
 **Pitfall #5** - it took more than 10 minutes for the guest machine to recognize the Nvidia. The issue was solved when I updated the Windows guest machine and downloaded the Nvidia drivers.
+
+**Pitfall #6** - check the blog post http://blog.matejc.com/blogs/myblog/playing-on-qemu to fix sound issues
