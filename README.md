@@ -1,6 +1,6 @@
 # Virtualization
 
-Virtualization scripts for Windows 10 guest machines.
+Virtualization scripts for linux hosts.
 
 - Using `KVM` as the hypervisor and `QEMU` as the virtualizer.
 - Using `qcow2` to allocate storage only when required by the guest.
